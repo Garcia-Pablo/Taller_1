@@ -1,3 +1,4 @@
+# Función para validar la selección de proceso cifrar o decifrar
 def select_opciones():
     while True:
         opcion = input("Ingrese 'c' para codificar o 'd' para decodificar su mensaje:\t")
@@ -12,33 +13,34 @@ def select_opciones():
         else:
             print("Verifique que su opción seleccionada sea 'c' o 'd' y no contenga espacios\n")
 
-
+# Función para validar las 26 letras del alfabeto inglés en MAYÚSCULA y minúscula
 def validar_alfabeto():
     while True:
         mensaje = input("Ingrese el mensaje (solo letras a-Z):\n>> ")
-        
+        # Se asegura que en el mensaje solo haya letras entre a - Z mediante rangos en la tabla ASCII
         for char in mensaje:
-            if (ord('A') <= ord(char) <= ord('Z')) or (ord('a') <= ord(char) <= ord('z')):      # Se asegura que en el mensaje solo haya letras entre a - Z
+            if (ord('A') <= ord(char) <= ord('Z')) or (ord('a') <= ord(char) <= ord('z')):
                 mensaje_valido = True
             else:
                 print("El mensaje ingresado no es válido, recuerde que solo se aceptan letras (a-Z)\n")
                 mensaje_valido = False
                 break
-        if mensaje_valido:
+        if mensaje_valido:                              # Retorna mensaje al ser validado
             return mensaje
-        
+
+# Función para asegurar que el número ingresado sea un número entero positivo
 def num_entero_positivo():
     while True:
         num = input("Ingrese el valor del desplazamiento (número entero):\t")
-
+        # Si el isdigit es Verdadero, significa que el num ingresado es un entero positivo
         if num.isdigit():
-            return int(num)
+            return int(num)                     # Se pasa num de string a entero
         else:
             print("El desplazamiento debe ser un número entero postivo.\tVerifique que no haya ingresado espacios\n")
 
 def cifrado(texto_entrada, desplazamiento):
 
-    men_cifrado = ""                        # Variable en la que se guarada el mensaje cifrado
+    men_cifrado = ""                        # Variable en la que se guarda el mensaje cifrado
     for char in texto_entrada:              # Recorre todos los caracteres del texto de entrada
         valor_ascii = ord(char)             # Valor Ascii del caracter
         
@@ -46,7 +48,7 @@ def cifrado(texto_entrada, desplazamiento):
             punto_partida = ord('A')        # Ascii 65
         else:
             punto_partida = ord('a')        # Ascii 97
-        
+        # Se necesita conocer el punto de partida, para poder ubicarse en el alfabeto inglés de la tabla Ascii
         cifrado_ascii = ((valor_ascii - punto_partida + desplazamiento) % 26) + punto_partida
         men_cifrado += chr(cifrado_ascii)
         
@@ -54,7 +56,7 @@ def cifrado(texto_entrada, desplazamiento):
 
 def decifrado(texto_entrada, desplazamiento):
 
-    men_decifrado = ""                        # Variable en la que se guarada el mensaje cifrado
+    men_decifrado = ""                      # Variable en la que se guarda el mensaje cifrado
     for char in texto_entrada:              # Recorre todos los caracteres del texto de entrada
         valor_ascii = ord(char)             # Valor Ascii del caracter
         
@@ -62,17 +64,8 @@ def decifrado(texto_entrada, desplazamiento):
             punto_partida = ord('A')        # Ascii 65
         else:
             punto_partida = ord('a')        # Ascii 97
-        
+        # Se necesita conocer el punto de partida, para poder ubicarse en el alfabeto inglés de la tabla Ascii
         decifrado_ascii = ((valor_ascii - punto_partida - desplazamiento) % 26) + punto_partida
         men_decifrado += chr(decifrado_ascii)
         
-    print(f"El mensaje {texto_entrada} decifrado con desplazamiento {desplazamiento} es:\t {men_decifrado}")
-
-cifrar_decifrar = select_opciones()
-texto_entrada = validar_alfabeto()
-desplazamiento = num_entero_positivo()
-
-if cifrar_decifrar == 'c':
-    cifrado(texto_entrada,desplazamiento)
-else:
-    decifrado(texto_entrada,desplazamiento)
+    print(f"El mensaje {texto_entrada} decifrado con desplazamiento {desplazamiento} es:\t {men_decifrado}\n")
